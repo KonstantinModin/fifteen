@@ -1,0 +1,23 @@
+.Controls {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.Controls button {
+  width: 100%;
+  margin: 1rem 3px;
+  padding: 0.75rem;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 20px 20px 50px #bebebe, -20px -20px 50px #ffffff;
+  border: 1px solid grey;
+  transition: all 0.5s ease-in-out;
+}
+.Controls button:active {
+  background-color: #575757;
+}
+
+.Controls .Buttons {
+  display: flex;
+}
