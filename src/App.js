@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import Controls from "./components/Controls";
 import Game from "./components/Game";
+import Footer from "./components/Footer";
 import {
   generateMatrix,
   checkIsGameSolved,
+  getCorrectShuffledMatrix,
   getRandomShuffledMatrix,
   getRandomRotationMap,
 } from "./utilities";
-// import Footer from "./components/Footer";
 
 import "./App.css";
 
-function App() {
+const App = () => {
   const [matrixSize, setMatrixSize] = useState(4);
   const [matrix, setMatrix] = useState(null);
   const [crazyRotationMap, setCrazyRotationMap] = useState(null);
@@ -20,15 +21,16 @@ function App() {
 
   const matrixSq = matrixSize * matrixSize;
 
-  // const [animationStart, setAnimationStart] = useState([null, null, null]);
-  // console.log("animationStart", animationStart);
-
-  useEffect(() => {
-    const matrix = generateMatrix(matrixSize, matrixSq);
+  const startNewGame = (matrix, rotationMap) => {
     setMatrix(matrix);
     setGameFinished(false);
     setGameStartedAt(null);
-    setCrazyRotationMap(null);
+    setCrazyRotationMap(rotationMap);
+  };
+
+  useEffect(() => {
+    const matrix = generateMatrix(matrixSize, matrixSq);
+    startNewGame(matrix, null);
   }, [matrixSize, matrixSq]);
 
   useEffect(() => {
@@ -44,32 +46,26 @@ function App() {
     }
   }, [matrix, matrixSize, matrixSq, gameStartedAt, crazyRotationMap]);
 
-  // useEffect(() => {
-  //   if (animationStart[0]) {
-  //     setTimeout(() => {
-  //       setAnimationStart([null, null, null]);
-  //     }, 500);
-  //   }
-  // }, [animationStart]);
+  const correctShuffle = () => {
+    const correctShuffledMatrix = getCorrectShuffledMatrix(
+      matrixSize,
+      matrixSq
+    );
+
+    startNewGame(correctShuffledMatrix, null);
+  };
 
   const randomShuffle = () => {
     const randomShuffledMatrix = getRandomShuffledMatrix(matrixSize, matrixSq);
 
-    setCrazyRotationMap(null);
-    setMatrix(randomShuffledMatrix);
-    setGameStartedAt(null);
-    setGameFinished(false);
+    startNewGame(randomShuffledMatrix, null);
   };
 
   const crazyShuffle = () => {
     const randomShuffledMatrix = getRandomShuffledMatrix(matrixSize, matrixSq);
     const rotationMap = getRandomRotationMap(matrixSq);
-    console.log("rotationMap", rotationMap);
 
-    setCrazyRotationMap(rotationMap);
-    setMatrix(randomShuffledMatrix);
-    setGameStartedAt(null);
-    setGameFinished(false);
+    startNewGame(randomShuffledMatrix, rotationMap);
   };
 
   return (
@@ -77,6 +73,7 @@ function App() {
       <Controls
         matrixSize={matrixSize}
         setMatrixSize={setMatrixSize}
+        correctShuffle={correctShuffle}
         randomShuffle={randomShuffle}
         crazyShuffle={crazyShuffle}
       />
@@ -88,9 +85,9 @@ function App() {
         setGameStartedAt={setGameStartedAt}
         crazyRotationMap={crazyRotationMap}
       />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;

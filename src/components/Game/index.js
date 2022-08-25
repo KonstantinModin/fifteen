@@ -16,9 +16,7 @@ const Game = ({
       dataset: { value, y, x },
     },
   }) => {
-    // console.log("value", value, "y=", y, "x=", x);
-
-    if (gameFinished) return;
+    if (gameFinished || !gameStartedAt) return;
 
     const yNumber = Number(y);
     const xNumber = Number(x);
@@ -49,15 +47,13 @@ const Game = ({
   const renderCell = (cell, x, y) => {
     let className = cell ? "Cell" : "Cell empty";
 
-    const direction = crazyRotationMap && crazyRotationMap[x + y];
+    const direction = crazyRotationMap && crazyRotationMap[cell];
     if (direction !== null) {
       className += directionClassMap[direction];
     }
-    // const [place, animationY, animationX] = animationStart;
-
-    // if (place && animationY === y && animationX === x) {
-    //   className += ` ${place}`;
-    // }
+    if (!direction && x + y * matrix.length + 1 === cell) {
+      className += " correct";
+    }
 
     return (
       <div className={className} key={x}>

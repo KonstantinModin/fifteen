@@ -3,6 +3,7 @@ import "./index.css";
 const Controls = ({
   matrixSize,
   setMatrixSize,
+  correctShuffle,
   randomShuffle,
   crazyShuffle,
 }) => {
@@ -24,7 +25,7 @@ const Controls = ({
         value={matrixSize}
       />
       <div className="Buttons">
-        <button>Shuffle</button>
+        <button onClick={correctShuffle}>Shuffle</button>
         <button onClick={randomShuffle}>Random Shuffle</button>
         <button onClick={crazyShuffle}>Crazy Shuffle</button>
       </div>

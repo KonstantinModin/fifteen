@@ -2,7 +2,12 @@ import React from "react";
 import "./index.css";
 
 const Footer = () => {
-  return <div className="Footer">Footer</div>;
+  const year = new Date().getFullYear();
+  return (
+    <div className="Footer">
+      Designed with React by Konstantin Modin © {year}
+    </div>
+  );
 };
 
 export default Footer;

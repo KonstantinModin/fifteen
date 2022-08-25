@@ -1,5 +1,4 @@
 .Game {
-  /* border: 1px solid purple; */
   display: flex;
   flex-direction: column;
   height: 390px;
@@ -16,15 +15,19 @@
   margin: 3px;
   border-radius: 5px;
   background-color: white;
-  /* border: 1px solid grey; */
   box-shadow: 3px 3px 10px #bebebe;
-  /* transition: transform 0.5s ease-in-out; */
+  box-sizing: border-box;
+  border: 1px solid #fff;
 }
 
 .Game .Row .Cell.empty {
   box-shadow: none;
-  /* border: none; */
+  border: 1px solid #ffffff00;
   background-color: #ffffff00;
+}
+.Game .Row .Cell.correct {
+  box-shadow: 3px 3px 10px #379424;
+  border: 1px solid green;
 }
 
 .Game .Row .Cell.rotation-left span {
@@ -37,22 +40,8 @@
   transform: rotate(180deg);
 }
 
-/* .Game .Row .Cell.left {
-  transform: translateX(-94.5px);
-}
-.Game .Row .Cell.right {
-  transform: translateX(+94.5px);
-}
-.Game .Row .Cell.top {
-  transform: translateY(-94.5px);
-}
-.Game .Row .Cell.bottom {
-  transform: translateY(94.5px);
-} */
-
 .Game .Row .Cell span {
   margin: auto;
   font-size: 1.4rem;
   font-weight: 100;
-  /* transition: all 0.5s ease-in-out; */
 }

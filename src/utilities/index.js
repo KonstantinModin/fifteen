@@ -46,6 +46,34 @@ export const getRandomShuffledMatrix = (matrixSize, matrixSq) => {
   return matrix;
 };
 
+const getPossibleMoves = (emptyY, emptyX, matrixSize) => {
+  return [
+    { y: emptyY - 1, x: emptyX },
+    { y: emptyY, x: emptyX - 1 },
+    { y: emptyY, x: emptyX + 1 },
+    { y: emptyY + 1, x: emptyX },
+  ].filter(({ y, x }) => y > -1 && y < matrixSize && x > -1 && x < matrixSize);
+};
+
+export const getCorrectShuffledMatrix = (matrixSize, matrixSq) => {
+  const matrix = generateMatrix(matrixSize, matrixSq);
+  let emptyY = matrixSize - 1;
+  let emptyX = matrixSize - 1;
+  console.log("shuffleCount", matrixSize * matrixSize * 10);
+
+  for (let i = 0; i < matrixSize * matrixSize * 10; i++) {
+    const possibleMoves = getPossibleMoves(emptyY, emptyX, matrixSize);
+    const randomMove = possibleMoves[getRandomNumber(possibleMoves.length)];
+
+    matrix[emptyY][emptyX] = matrix[randomMove.y][randomMove.x];
+    matrix[randomMove.y][randomMove.x] = 0;
+    emptyY = randomMove.y;
+    emptyX = randomMove.x;
+  }
+
+  return matrix;
+};
+
 const getMatrixCopy = (matrix) =>
   matrix.map((row) => row.map((value) => value));
 
@@ -54,15 +82,7 @@ export const getMatrixAfterSwap = (matrix, yNumber, xNumber, newY, newX) => {
   const temp = matrix[yNumber][xNumber];
   matrixCopy[yNumber][xNumber] = matrix[newY][newX];
   matrixCopy[newY][newX] = temp;
-  // const animationPlace =
-  //   newX > xNumber
-  //     ? "left"
-  //     : newX < xNumber
-  //     ? "right"
-  //     : newY > yNumber
-  //     ? "top"
-  //     : "bottom";
-  // setAnimationStart([animationPlace, newY, newX]);
+
   return matrixCopy;
 };
 
