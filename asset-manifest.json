@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/fifteen/static/css/main.7019b953.css",
-    "main.js": "/fifteen/static/js/main.89ddc7ee.js",
-    "index.html": "/fifteen/index.html",
-    "main.7019b953.css.map": "/fifteen/static/css/main.7019b953.css.map",
-    "main.89ddc7ee.js.map": "/fifteen/static/js/main.89ddc7ee.js.map"
+    "main.css": "/fifteen_game/static/css/main.7019b953.css",
+    "main.js": "/fifteen_game/static/js/main.89ddc7ee.js",
+    "index.html": "/fifteen_game/index.html",
+    "main.7019b953.css.map": "/fifteen_game/static/css/main.7019b953.css.map",
+    "main.89ddc7ee.js.map": "/fifteen_game/static/js/main.89ddc7ee.js.map"
   },
   "entrypoints": [
     "static/css/main.7019b953.css",
