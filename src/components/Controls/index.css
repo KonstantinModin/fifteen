@@ -22,8 +22,12 @@
   display: flex;
 }
 
-.Controls .Buttons .CTA {
+.Controls button.CTA {
   animation: pulse 1s infinite;
+}
+.Controls button.Selected {
+  background-color: rgb(210, 210, 210);
+  box-shadow: 20px 20px 50px #858585, -20px -20px 50px #ffffff;
 }
 
 @keyframes pulse {

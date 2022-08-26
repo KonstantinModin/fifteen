@@ -59,7 +59,6 @@ export const getCorrectShuffledMatrix = (matrixSize, matrixSq) => {
   const matrix = generateMatrix(matrixSize, matrixSq);
   let emptyY = matrixSize - 1;
   let emptyX = matrixSize - 1;
-  console.log("shuffleCount", matrixSize * matrixSize * 10);
 
   for (let i = 0; i < matrixSize * matrixSize * 10; i++) {
     const possibleMoves = getPossibleMoves(emptyY, emptyX, matrixSize);

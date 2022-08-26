@@ -22,6 +22,7 @@ const App = () => {
   const [gameStartedAt, setGameStartedAt] = useState(null);
   const [gameTouched, setGameTouched] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
+  const [shuffleType, setShuffleType] = useState(null);
 
   const matrixSq = matrixSize * matrixSize;
 
@@ -30,6 +31,7 @@ const App = () => {
     setGameTouched(false);
     setCrazyRotationMap(rotationMap);
     setGameStartedAt(null);
+    setShuffleType(null);
   };
 
   const startNewGame = (matrix, rotationMap) => {
@@ -72,12 +74,14 @@ const App = () => {
     );
 
     startNewGame(correctShuffledMatrix, null);
+    setShuffleType(1);
   };
 
   const randomShuffle = () => {
     const randomShuffledMatrix = getRandomShuffledMatrix(matrixSize, matrixSq);
 
     startNewGame(randomShuffledMatrix, null);
+    setShuffleType(2);
   };
 
   const crazyShuffle = () => {
@@ -85,6 +89,7 @@ const App = () => {
     const rotationMap = getRandomRotationMap(matrixSq);
 
     startNewGame(randomShuffledMatrix, rotationMap);
+    setShuffleType(3);
   };
 
   return (
@@ -96,6 +101,7 @@ const App = () => {
         randomShuffle={randomShuffle}
         crazyShuffle={crazyShuffle}
         gameStartedAt={gameStartedAt}
+        shuffleType={shuffleType}
       />
       <Game
         matrix={matrix}
