@@ -106,7 +106,7 @@ const App = () => {
         crazyRotationMap={crazyRotationMap}
         gameTouched={gameTouched}
       />
-      <Footer setGameFinished={setGameFinished} />
+      <Footer />
       {gameFinished && <Confetti numberOfPieces={500} wind={0.01} />}
       {gameFinished && <Overlay text="You win!" onClick={correctShuffle} />}
     </div>
