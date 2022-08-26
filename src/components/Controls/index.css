@@ -21,3 +21,16 @@
 .Controls .Buttons {
   display: flex;
 }
+
+.Controls .Buttons .CTA {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 68, 0, 0.541);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 68, 0, 0);
+  }
+}

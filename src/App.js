@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
+
 import Controls from "./components/Controls";
 import Game from "./components/Game";
 import Footer from "./components/Footer";
@@ -11,40 +13,57 @@ import {
 } from "./utilities";
 
 import "./App.css";
+import Overlay from "./components/Overlay";
 
 const App = () => {
   const [matrixSize, setMatrixSize] = useState(4);
   const [matrix, setMatrix] = useState(null);
   const [crazyRotationMap, setCrazyRotationMap] = useState(null);
   const [gameStartedAt, setGameStartedAt] = useState(null);
+  const [gameTouched, setGameTouched] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
 
   const matrixSq = matrixSize * matrixSize;
 
-  const startNewGame = (matrix, rotationMap) => {
-    setMatrix(matrix);
+  const resetState = (rotationMap) => {
     setGameFinished(false);
-    setGameStartedAt(null);
+    setGameTouched(false);
     setCrazyRotationMap(rotationMap);
+    setGameStartedAt(null);
+  };
+
+  const startNewGame = (matrix, rotationMap) => {
+    resetState(rotationMap);
+    setMatrix(matrix);
+    const now = new Date().getTime();
+    setGameStartedAt(now);
   };
 
   useEffect(() => {
     const matrix = generateMatrix(matrixSize, matrixSq);
-    startNewGame(matrix, null);
+    setMatrix(matrix);
+    resetState(null);
   }, [matrixSize, matrixSq]);
 
   useEffect(() => {
     const isGameSolved =
       matrix &&
+      gameTouched &&
       !crazyRotationMap &&
       gameStartedAt &&
       checkIsGameSolved(matrix, matrixSq);
 
     if (isGameSolved) {
       setGameFinished(true);
-      alert("You did it!");
     }
-  }, [matrix, matrixSize, matrixSq, gameStartedAt, crazyRotationMap]);
+  }, [
+    matrix,
+    matrixSize,
+    matrixSq,
+    gameStartedAt,
+    crazyRotationMap,
+    gameTouched,
+  ]);
 
   const correctShuffle = () => {
     const correctShuffledMatrix = getCorrectShuffledMatrix(
@@ -76,16 +95,20 @@ const App = () => {
         correctShuffle={correctShuffle}
         randomShuffle={randomShuffle}
         crazyShuffle={crazyShuffle}
+        gameStartedAt={gameStartedAt}
       />
       <Game
         matrix={matrix}
         setMatrix={setMatrix}
         gameFinished={gameFinished}
         gameStartedAt={gameStartedAt}
-        setGameStartedAt={setGameStartedAt}
+        setGameTouched={setGameTouched}
         crazyRotationMap={crazyRotationMap}
+        gameTouched={gameTouched}
       />
-      <Footer />
+      <Footer setGameFinished={setGameFinished} />
+      {gameFinished && <Confetti numberOfPieces={500} wind={0.01} />}
+      {gameFinished && <Overlay text="You win!" onClick={correctShuffle} />}
     </div>
   );
 };

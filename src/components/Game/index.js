@@ -6,30 +6,22 @@ const Game = ({
   setMatrix,
   gameFinished,
   gameStartedAt,
-  setGameStartedAt,
+  gameTouched,
+  setGameTouched,
   crazyRotationMap,
 }) => {
   const gameWidth = document.querySelector(".Game")?.offsetWidth;
 
-  const cellOnClickHandler = ({
-    target: {
-      dataset: { value, y, x },
-    },
-  }) => {
+  const cellOnClickHandler = (y, x) => {
     if (gameFinished || !gameStartedAt) return;
+    if (!gameTouched) setGameTouched(true);
 
     const yNumber = Number(y);
     const xNumber = Number(x);
 
     const placeToMove = getPlaceToMove(yNumber, xNumber, matrix);
-    if (!placeToMove) {
-      console.log("no place to move!");
-      return;
-    }
-    if (!gameStartedAt) {
-      const now = new Date().getTime();
-      setGameStartedAt(now);
-    }
+    if (!placeToMove) return;
+
     const [newY, newX] = placeToMove;
 
     const newMatrix = getMatrixAfterSwap(matrix, yNumber, xNumber, newY, newX);
@@ -56,21 +48,21 @@ const Game = ({
     }
 
     return (
-      <div className={className} key={x}>
-        <span
-          onClick={cellOnClickHandler}
-          data-value={cell}
-          data-y={y}
-          data-x={x}
-        >
+      <div
+        className={className}
+        key={`cell-${x}`}
+        onClick={() => cellOnClickHandler(y, x)}
+      >
+        <span onClick={() => cellOnClickHandler(y, x)}>
           {cell ? cell : null}
         </span>
       </div>
     );
   };
+
   const renderRow = (row, y) => {
     return (
-      <div className="Row" key={y}>
+      <div className="Row" key={`row-${y}`}>
         {row.map((cell, x) => renderCell(cell, x, y))}
       </div>
     );

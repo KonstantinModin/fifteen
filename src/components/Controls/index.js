@@ -6,10 +6,13 @@ const Controls = ({
   correctShuffle,
   randomShuffle,
   crazyShuffle,
+  gameStartedAt,
 }) => {
   const inputChangeHandler = ({ target: { value } }) => {
     setMatrixSize(Number(value));
   };
+
+  const shuffleClass = !gameStartedAt && "CTA";
 
   return (
     <div className="Controls">
@@ -25,7 +28,9 @@ const Controls = ({
         value={matrixSize}
       />
       <div className="Buttons">
-        <button onClick={correctShuffle}>Shuffle</button>
+        <button className={shuffleClass} onClick={correctShuffle}>
+          Shuffle
+        </button>
         <button onClick={randomShuffle}>Random Shuffle</button>
         <button onClick={crazyShuffle}>Crazy Shuffle</button>
       </div>
