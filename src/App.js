@@ -23,8 +23,31 @@ const App = () => {
   const [gameTouched, setGameTouched] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
   const [shuffleType, setShuffleType] = useState(null);
+  const [isTimerTicking, setIsTimerTicking] = useState(false);
 
   const matrixSq = matrixSize * matrixSize;
+
+  useEffect(() => {
+    const updateLocalStorage = () => {
+      const timePassed = ((Date.now() - gameStartedAt) / 1e3) | 0;
+
+      const results =
+        JSON.parse(window.localStorage.getItem("results15")) || {};
+      if (!results[matrixSize]) results[matrixSize] = [];
+
+      const newGameResult = { sec: timePassed };
+      results[matrixSize] = [...results[matrixSize], newGameResult]
+        .sort((a, b) => a.sec - b.sec)
+        .slice(0, 12);
+
+      window.localStorage.setItem("results15", JSON.stringify(results));
+    };
+
+    if (gameFinished) {
+      setIsTimerTicking(false);
+      updateLocalStorage();
+    }
+  }, [matrixSize, gameFinished, gameStartedAt]);
 
   const resetState = (rotationMap) => {
     setGameFinished(false);
@@ -32,13 +55,15 @@ const App = () => {
     setCrazyRotationMap(rotationMap);
     setGameStartedAt(null);
     setShuffleType(null);
+    setIsTimerTicking(false);
   };
 
   const startNewGame = (matrix, rotationMap) => {
     resetState(rotationMap);
     setMatrix(matrix);
-    const now = new Date().getTime();
+    const now = Date.now();
     setGameStartedAt(now);
+    setIsTimerTicking(true);
   };
 
   useEffect(() => {
@@ -102,6 +127,7 @@ const App = () => {
         crazyShuffle={crazyShuffle}
         gameStartedAt={gameStartedAt}
         shuffleType={shuffleType}
+        isTimerTicking={isTimerTicking}
       />
       <Game
         matrix={matrix}
@@ -114,7 +140,14 @@ const App = () => {
       />
       <Footer />
       {gameFinished && <Confetti numberOfPieces={500} wind={0.01} />}
-      {gameFinished && <Overlay text="You win!" onClick={correctShuffle} />}
+      {gameFinished && (
+        <Overlay
+          text="You win!"
+          onClick={correctShuffle}
+          gameFinished={gameFinished}
+          matrixSize={matrixSize}
+        />
+      )}
     </div>
   );
 };

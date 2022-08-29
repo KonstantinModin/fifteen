@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./index.css";
 
 const Controls = ({
@@ -8,7 +9,31 @@ const Controls = ({
   crazyShuffle,
   gameStartedAt,
   shuffleType,
+  isTimerTicking,
 }) => {
+  const [timeToShow, setTimeToShow] = useState(0);
+
+  // update game time
+  useEffect(() => {
+    const id = setTimeout(() => {
+      if (gameStartedAt && isTimerTicking) {
+        const timePassed = Date.now() - gameStartedAt;
+        setTimeToShow((timePassed / 1e3) | 0);
+      }
+    }, 1000);
+    return () => clearTimeout(id);
+  }, [isTimerTicking, gameStartedAt, timeToShow]);
+
+  // clear game time on the beginning of round
+  useEffect(() => {
+    const now = Date.now();
+    const timeDiff = now - gameStartedAt;
+
+    if (timeDiff < 10) {
+      setTimeToShow(0);
+    }
+  }, [gameStartedAt]);
+
   const inputChangeHandler = ({ target: { value } }) => {
     setMatrixSize(Number(value));
   };
@@ -19,6 +44,7 @@ const Controls = ({
   return (
     <div className="Controls">
       <h1>Fifteen</h1>
+      <div>Time : {gameStartedAt ? timeToShow : 0} sec</div>
       <label>
         Board size: {matrixSize} x {matrixSize}
       </label>

@@ -6,10 +6,19 @@
   width: 100vw;
   background-color: #00000088;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .App .Overlay .Overlay-Text {
-  margin: auto;
   font-size: 4rem;
   color: greenyellow;
+}
+
+.App .Overlay .Results {
+  background-color: #00000088;
+  color: #fff;
+  padding: 20px;
+  border-radius: 15px;
 }

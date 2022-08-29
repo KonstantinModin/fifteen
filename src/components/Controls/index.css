@@ -4,6 +4,10 @@
   padding: 15px;
 }
 
+.Controls h1 {
+  margin: 0 0 10px;
+}
+
 .Controls button {
   width: 100%;
   margin: 1rem 3px;
@@ -24,6 +28,7 @@
 
 .Controls button.CTA {
   animation: pulse 1s infinite;
+  z-index: 1;
 }
 .Controls button.Selected {
   background-color: rgb(210, 210, 210);
